@@ -5,65 +5,100 @@
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page import="sample.shopping.Tea"%>
-<%@page import="sample.shopping.Cart"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>View Cart</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
     </head>
     <body>
-        <h1>It is your order</h1>
-        <c:if test="${sessionScope.CART != null}">
-            <table border="1">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Edit</th>
-                        <th>Remove</th>
-                        <th>Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <c:set var="total" value="${0}"></c:set>
-                    <c:forEach var="tea" varStatus="counter" items="${sessionScope.CART.getCart().values()}">
-                        <c:set var="total" value="${total + (tea.price * tea.quantity)}"></c:set>
-                        <form action="MainController" method="POST">
-                            <tr>
-                                <td>${counter.count}</td>
-                            <td>
-                                <input type="text" name="id" value="${tea.id}" readonly="" />
-                            </td>
-                            <td>${tea.name}</td>
-                            <td>${tea.price}</td>
-                            <td>
-                                <input type="number" name="quantity" value="${tea.quantity}" required="" min="1"/>
-                            </td>
+        <section class="h-100 gradient-custom" style="background: #eee;">
+            <div class="container py-5">
+                <div class="row d-flex justify-content-center my-4">
+                    <div class="col-md-8">
+                        <a href="shopping.html" class="btn btn-primary ms-3 mb-3" style="align-self: flex-end; width: 100px">Add More</a>
+                        <div class="card mb-4">
+                            <div class="card-header py-3">
+                                <h5 class="mb-0">Cart</h5>
+                            </div>
+                            <div class="card-body">
+                                <!-- Single item -->
+                                <c:set var="total" value="${0}"></c:set>
+                                <c:forEach var="tea" varStatus="counter" items="${sessionScope.CART.getCart().values()}">
+                                    <c:set var="total" value="${total + (tea.price * tea.quantity)}"></c:set>
+                                        <form action="MainController">
+                                            <div class="row">
 
-                            <!--Edit here-->
-                            <td>
-                                <input type="submit" name="action" value="Edit" />
-                            </td>
+                                                <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
+                                                    <!-- Data -->
+                                                    <p><strong>${tea.name}</strong></p>
+                                                <p>ID: <input type="text" name="id" value="${tea.id}" readonly="" /></p>
+                                                <p>Price: ${tea.price}</p>
+                                                <button type="submit" value="Remove" name="action" class="btn btn-primary btn-sm me-1 mb-2" data-mdb-toggle="tooltip"
+                                                        title="Remove item">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                                <button type="submit" value="Edit" name="action" class="btn btn-primary btn-sm me-1 mb-2" data-mdb-toggle="tooltip"
+                                                        title="Remove item">
+                                                    <i class="fas fa-pen"></i>
+                                                </button>
+                                                <!-- Data -->
+                                            </div>
 
-                            <!--Remove here-->
-                            <td>
-                                <input type="submit" name="action" value="Remove" />
-                            </td>
+                                            <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+                                                <!-- Quantity -->
+                                                <div class="d-flex mb-4" style="max-width: 300px">
+                                                    <div class="form-outline">
+                                                        <input id="form1" min="0" name="quantity" value="${tea.quantity}" type="number" class="form-control" />
+                                                        <label class="form-label" for="form1">Quantity</label>
+                                                    </div>
+                                                </div>
+                                                <!-- Quantity -->
 
-                            <td>${tea.price * tea.quantity}</td>
-                        </tr>
-                    </form>
-                </c:forEach>
-            </tbody>
-        </table>
-        <h3>Total : ${total}</h3>
-    </c:if>
-    <a href="shopping.html">Add more</a>
-</body>
+                                                <!-- Price -->
+                                                <p class="text-start text-md-center">
+                                                    <strong>${tea.price * tea.quantity}</strong>
+                                                </p>
+                                                <!-- Price -->
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <hr class="my-4" />
+                                </c:forEach>
+                                <!-- Single item -->
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-4 my-5 py-1">
+                        <div class="card mb-4">
+                            <div class="card-header py-3">
+                                <h5 class="mb-0">Summary</h5>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <li
+                                        class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                                        <div>
+                                            <strong>Total amount</strong>
+                                        </div>
+                                        <span><strong>${total}</strong></span>
+                                    </li>
+                                </ul>
+
+                                <button type="button" class="btn btn-primary btn-lg btn-block">
+                                    Go to checkout
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    </body>
 </html>

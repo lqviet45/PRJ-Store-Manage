@@ -14,9 +14,6 @@
         <title>USER Page</title>
     </head>
     <body>
-    <c:if test="${sessionScope.LOGIN_USER == null || sessionScope.LOGIN_USER.roleID ne 'US'}">
-        <c:redirect url="login.html"></c:redirect>
-    </c:if>
     <h1>User's Information</h1>
 
     User ID ${sessionScope.LOGIN_USER.userID}<br/>

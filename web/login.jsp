@@ -5,7 +5,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Login Page</title>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
-        <link href="./style/main.css" rel="stylesheet">
+        <link href="./assets/style/main.css" rel="stylesheet" type="text/css" >
     </head>
     <body>
         <div class="main">
@@ -39,7 +39,7 @@
                 </span>
                 <p>or sign in with:</p>
                 <div class="login-google">
-                    <a href="https://accounts.google.com/o/oauth2/auth?scope=email%20profile&redirect_uri=http://localhost:8080/PRJ301_T2S2_JSP/MainController?action=LoginGoogle&response_type=code&client_id=725358676694-p17kmkch5e7snmmvic2mftgfa337vkf2.apps.googleusercontent.com&approval_prompt=force">
+                    <a href="https://accounts.google.com/o/oauth2/auth?scope=email%20profile&redirect_uri=http://localhost:8080/PRJ301_T2S2_JSP_JSTL/MainController?action=LoginGoogle&response_type=code&client_id=725358676694-p17kmkch5e7snmmvic2mftgfa337vkf2.apps.googleusercontent.com&approval_prompt=force">
                         <i class="fab fa-google" style="color: #9912f3;"></i>
                     </a>
                 </div>

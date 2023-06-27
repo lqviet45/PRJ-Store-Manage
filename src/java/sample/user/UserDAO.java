@@ -27,7 +27,7 @@ public class UserDAO {
 
     private static final String INSERT = "INSERT INTO tblUsers(userID, fullName, roleID, email, password, isGoogleAccount) VALUES(?,?,?,?,?, 0)";
 
-    public UserDTO checkLogin(String userID, String password) throws SQLException {
+    public UserDTO checkLogin(String userID, String password) throws SQLException, NamingException {
         UserDTO user = null;
         Connection conn = null;
         PreparedStatement ptm = null;
@@ -47,8 +47,6 @@ public class UserDAO {
                     user = new UserDTO(userID, fullName, roleID, "", "");
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         } finally {
             DBUntils.quietClose(conn, ptm, rs);
         }
@@ -56,7 +54,7 @@ public class UserDAO {
         return user;
     }
 
-    public List<UserDTO> getListUser(String search) throws SQLException {
+    public List<UserDTO> getListUser(String search) throws SQLException, NamingException {
         List<UserDTO> listUser = new ArrayList<>();
         Connection conn = null;
         PreparedStatement ptm = null;
@@ -77,8 +75,6 @@ public class UserDAO {
                     listUser.add(new UserDTO(userID, fullName, roleID, email, password));
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         } finally {
             DBUntils.quietClose(conn, ptm, rs);
         }
@@ -86,7 +82,7 @@ public class UserDAO {
         return listUser;
     }
 
-    public boolean delete(String userID) throws SQLException {
+    public boolean delete(String userID) throws SQLException, NamingException {
         boolean checkDelete = false;
         Connection conn = null;
         PreparedStatement ptm = null;
@@ -98,15 +94,13 @@ public class UserDAO {
                 ptm.setString(1, userID);
                 checkDelete = ptm.executeUpdate() > 0;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         } finally {
             DBUntils.quietClose(conn, ptm);
         }
         return checkDelete;
     }
 
-    public boolean update(UserDTO user) throws SQLException {
+    public boolean update(UserDTO user) throws SQLException, NamingException {
         boolean checkUpdate = false;
         Connection conn = null;
         PreparedStatement ptm = null;
@@ -121,15 +115,13 @@ public class UserDAO {
                 ptm.setString(4, user.getUserID());
                 checkUpdate = ptm.executeUpdate() > 0 ? true : false;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         } finally {
             DBUntils.quietClose(conn, ptm);
         }
         return checkUpdate;
     }
 
-    public boolean checkDuplicate(String userID) throws SQLException {
+    public boolean checkDuplicate(String userID) throws SQLException, NamingException {
         boolean check = false;
         Connection conn = null;
         PreparedStatement ptm = null;
@@ -146,8 +138,6 @@ public class UserDAO {
                     check = true;
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         } finally {
             DBUntils.quietClose(conn, ptm, rs);
 
