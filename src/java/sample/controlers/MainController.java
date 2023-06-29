@@ -50,6 +50,12 @@ public class MainController extends HttpServlet {
 
     private static final String CREATE_GOOGLE = "CreateGoogle";
     private static final String CREATE_GOOGLE_CONTROLLER = "CreateGoogleController";
+    
+    private static final String VERIFY = "verify";
+    private static final String VERIFY_CONTROLLER = "verifyController";
+    
+    private static final String CHECKOUT = "Checkout";
+    private static final String CHECKOUT_CONTROLLER = "CheckoutController";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -87,6 +93,10 @@ public class MainController extends HttpServlet {
                 url = LOGIN_GOOGLE_CONTROLLER;
             } else if (CREATE_GOOGLE.equals(action)) {
                 url = CREATE_GOOGLE_CONTROLLER;
+            } else if (VERIFY.equals(action)) {
+                url = VERIFY_CONTROLLER;
+            } else if (CHECKOUT.equals(action)) {
+                url = CHECKOUT_CONTROLLER;
             }
 
         } catch (Exception e) {

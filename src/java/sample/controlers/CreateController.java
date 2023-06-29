@@ -6,12 +6,14 @@
 package sample.controlers;
 
 import java.io.IOException;
+import java.util.UUID;
 import java.util.regex.Pattern;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import sample.service.EmailService;
 import sample.user.UserDAO;
 import sample.user.UserDTO;
 import sample.user.UserError;
@@ -66,10 +68,13 @@ public class CreateController extends HttpServlet {
 
             if (checkValidation) {
                 UserDTO user = new UserDTO(userID, fullName, roleID, email, password);
-//                boolean checkInsert = dao.insert(user);
                 boolean checkInsert = dao.insertV2(user);
                 if (checkInsert) {
-                    url = SUCCESS;
+                    EmailService emailService = new EmailService();
+                    user.setToken(UUID.randomUUID().toString());
+                    dao.saveToken(user);
+                    emailService.sendMail(user.getEmail(), user.getToken());
+                    url = SUCCESS;               
                 } else {
                     request.setAttribute("ERROR", "Unknow error");
                 }

@@ -17,8 +17,9 @@ import sample.untils.DBUntils;
 public class GoogleUserDAO {
 
     private static final String LOGIN = "SELECT fullName, roleID FROM tblUsers WHERE userID = ? AND email = ? AND isGoogleAccount = 1";
-    private static final String INSERT = "INSERT INTO tblUsers(userID, fullName, roleID, email"
-            + ", isGoogleAccount) VALUES(?,?,?,?, 1)";
+    private static final String INSERT = "INSERT INTO tblUsers(userID, fullName, roleID, email, status"
+            + ", isGoogleAccount) VALUES(?,?,?,?, 0, 1)";
+    private static final String SAVE_TOKEN = "UPDATE tblUsers SET token = ? WHERE userID = ?";
 
     public String getToken(final String code) throws ClientProtocolException, IOException {
         String response = Request.Post(GoogleConstants.GOOGLE_LINK_GET_TOKEN)
@@ -34,7 +35,7 @@ public class GoogleUserDAO {
                 .toString().replaceAll("\"", "");
         return accessToken;
     }
-    
+
     public String getTokenSignUp(final String code) throws ClientProtocolException, IOException {
         String response = Request.Post(GoogleConstants.GOOGLE_LINK_GET_TOKEN)
                 .bodyForm(Form.form().add("client_id", GoogleConstants.GOOGLE_CLIENT_ID_SIGNUP)
@@ -55,7 +56,6 @@ public class GoogleUserDAO {
         String response = Request.Get(link).execute()
                 .returnContent().asString();
         GoogleUserDTO googleUser = new Gson().fromJson(response, GoogleUserDTO.class);
-        System.err.println(googleUser);
         return googleUser;
     }
 
@@ -100,5 +100,21 @@ public class GoogleUserDAO {
             DBUntils.quietClose(conn, ptm);
         }
         return checkUpdate;
+    }
+
+    public boolean saveToken(GoogleUserDTO user) throws SQLException, NamingException {
+        boolean checkSave = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        try {
+            conn = DBUntils.getConnection();
+            ptm = conn.prepareStatement(SAVE_TOKEN);
+            ptm.setString(1, user.getToken());
+            ptm.setString(2, user.getName());
+            checkSave = ptm.executeUpdate() > 0;
+        } finally {
+            DBUntils.quietClose(conn, ptm);
+        }
+        return checkSave;
     }
 }

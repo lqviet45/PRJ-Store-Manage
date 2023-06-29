@@ -14,12 +14,15 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
     </head>
-    <body>
-        <section class="h-100 gradient-custom" style="background: #eee;">
+    <body style="background: #eee;">
+        <section class="h-100 gradient-custom">
             <div class="container py-5">
                 <div class="row d-flex justify-content-center my-4">
                     <div class="col-md-8">
-                        <a href="shopping.html" class="btn btn-primary ms-3 mb-3" style="align-self: flex-end; width: 100px">Add More</a>
+                        <a href="shopping.html" class="btn btn-primary ms-3 mb-3">Add More</a>
+                        <c:if test="${sessionScope.LOGIN_USER == null}">
+                            <a href="login.html" class="btn btn-primary ms-3 mb-3">Login</a>
+                        </c:if>
                         <div class="card mb-4">
                             <div class="card-header py-3">
                                 <h5 class="mb-0">Cart</h5>
@@ -89,10 +92,12 @@
                                         <span><strong>${total}</strong></span>
                                     </li>
                                 </ul>
-
-                                <button type="button" class="btn btn-primary btn-lg btn-block">
-                                    Go to checkout
-                                </button>
+                            <p class="text-danger">${requestScope.ERROR}</p>
+                                <form action="MainController">
+                                    <button type="submit" class="btn btn-primary btn-lg btn-block" name="action" value="Checkout">
+                                        Go to checkout
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>

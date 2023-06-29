@@ -5,20 +5,32 @@
         <group>
             <file>file:/E:/FPTU/SUMMER2023(4)/PRJ301/PRJ301_T2S2_JSP_JSTL/web/viewCart.jsp</file>
             <file>file:/E:/FPTU/SUMMER2023(4)/PRJ301/PRJ301_T2S2_JSP_JSTL/src/java/sample/filter/Authen.java</file>
-            <file>file:/E:/FPTU/SUMMER2023(4)/PRJ301/PRJ301_T2S2_JSP_JSTL/web/shopping.jsp</file>
-            <file>file:/E:/FPTU/SUMMER2023(4)/PRJ301/PRJ301_T2S2_JSP_JSTL/src/java/sample/security/GoogleConstants.java</file>
             <file>file:/E:/FPTU/SUMMER2023(4)/PRJ301/PRJ301_T2S2_JSP_JSTL/src/java/sample/controlers/AddController.java</file>
-            <file>file:/E:/FPTU/SUMMER2023(4)/PRJ301/PRJ301_T2S2_JSP_JSTL/src/java/sample/security/EmailConstants.java</file>
-            <file>file:/E:/FPTU/SUMMER2023(4)/PRJ301/PRJ301_T2S2_JSP_JSTL/web/create.html</file>
             <file>file:/E:/FPTU/SUMMER2023(4)/PRJ301/PRJ301_T2S2_JSP_JSTL/src/java/sample/shopping/Cart.java</file>
+            <file>file:/E:/FPTU/SUMMER2023(4)/PRJ301/PRJ301_T2S2_JSP_JSTL/web/create.html</file>
+            <file>file:/E:/FPTU/SUMMER2023(4)/PRJ301/PRJ301_T2S2_JSP_JSTL/src/java/sample/controlers/CreateGoogleController.java</file>
+            <file>file:/E:/FPTU/SUMMER2023(4)/PRJ301/PRJ301_T2S2_JSP_JSTL/src/java/sample/user/UserDAO.java</file>
+            <file>file:/E:/FPTU/SUMMER2023(4)/PRJ301/PRJ301_T2S2_JSP_JSTL/src/java/sample/shopping/Order.java</file>
+            <file>file:/E:/FPTU/SUMMER2023(4)/PRJ301/PRJ301_T2S2_JSP_JSTL/src/java/sample/shopping/ShoppingDAO.java</file>
+            <file>file:/E:/FPTU/SUMMER2023(4)/PRJ301/PRJ301_T2S2_JSP_JSTL/src/java/sample/controlers/MainController.java</file>
+            <file>file:/E:/FPTU/SUMMER2023(4)/PRJ301/PRJ301_T2S2_JSP_JSTL/src/java/sample/user/GoogleUserDTO.java</file>
+            <file>file:/E:/FPTU/SUMMER2023(4)/PRJ301/PRJ301_T2S2_JSP_JSTL/src/java/sample/controlers/LoginController.java</file>
+            <file>file:/E:/FPTU/SUMMER2023(4)/PRJ301/PRJ301_T2S2_JSP_JSTL/src/java/sample/controlers/SearchController.java</file>
+            <file>file:/E:/FPTU/SUMMER2023(4)/PRJ301/PRJ301_T2S2_JSP_JSTL/web/login.jsp</file>
+            <file>file:/E:/FPTU/SUMMER2023(4)/PRJ301/PRJ301_T2S2_JSP_JSTL/src/java/sample/service/EmailService.java</file>
+            <file>file:/E:/FPTU/SUMMER2023(4)/PRJ301/PRJ301_T2S2_JSP_JSTL/src/java/sample/controlers/verifyController.java</file>
+            <file>file:/E:/FPTU/SUMMER2023(4)/PRJ301/PRJ301_T2S2_JSP_JSTL/src/java/sample/controlers/LogoutController.java</file>
+            <file>file:/E:/FPTU/SUMMER2023(4)/PRJ301/PRJ301_T2S2_JSP_JSTL/web/verify.jsp</file>
             <file>file:/E:/FPTU/SUMMER2023(4)/PRJ301/PRJ301_T2S2_JSP_JSTL/web/login.html</file>
+            <file>file:/E:/FPTU/SUMMER2023(4)/PRJ301/PRJ301_T2S2_JSP_JSTL/src/java/sample/user/UserDTO.java</file>
             <file>file:/E:/FPTU/SUMMER2023(4)/PRJ301/PRJ301_T2S2_JSP_JSTL/web/admin.jsp</file>
+            <file>file:/E:/FPTU/SUMMER2023(4)/PRJ301/PRJ301_T2S2_JSP_JSTL/src/java/sample/controlers/CheckoutController.java</file>
             <file>file:/E:/FPTU/SUMMER2023(4)/PRJ301/PRJ301_T2S2_JSP_JSTL/src/java/sample/user/GoogleUserDAO.java</file>
             <file>file:/E:/FPTU/SUMMER2023(4)/PRJ301/PRJ301_T2S2_JSP_JSTL/web/usPage.jsp</file>
-            <file>file:/E:/FPTU/SUMMER2023(4)/PRJ301/PRJ301_T2S2_JSP_JSTL/src/java/sample/controlers/MainController.java</file>
-            <file>file:/E:/FPTU/SUMMER2023(4)/PRJ301/PRJ301_T2S2_JSP_JSTL/web/create.jsp</file>
+            <file>file:/E:/FPTU/SUMMER2023(4)/PRJ301/PRJ301_T2S2_JSP_JSTL/src/java/sample/controlers/EditController.java</file>
+            <file>file:/E:/FPTU/SUMMER2023(4)/PRJ301/PRJ301_T2S2_JSP_JSTL/src/java/sample/controlers/CreateController.java</file>
+            <file>file:/E:/FPTU/SUMMER2023(4)/PRJ301/PRJ301_T2S2_JSP_JSTL/src/java/sample/shopping/Tea.java</file>
             <file>file:/E:/FPTU/SUMMER2023(4)/PRJ301/PRJ301_T2S2_JSP_JSTL/web/shopping.html</file>
-            <file>file:/E:/FPTU/SUMMER2023(4)/PRJ301/PRJ301_T2S2_JSP_JSTL/web/login.jsp</file>
         </group>
     </open-files>
 </project-private>

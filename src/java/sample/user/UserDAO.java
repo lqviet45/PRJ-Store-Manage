@@ -25,8 +25,12 @@ public class UserDAO {
 
     private static final String UPDATE = "UPDATE tblUsers SET fullName = ?, roleID = ?, email = ? WHERE userID = ?";
 
-    private static final String INSERT = "INSERT INTO tblUsers(userID, fullName, roleID, email, password, isGoogleAccount) VALUES(?,?,?,?,?, 0)";
+    private static final String INSERT = "INSERT INTO tblUsers(userID, fullName, roleID, status, email, password, isGoogleAccount) VALUES(?,?,?, 0,?,?, 0)";
+    
+    private static final String SAVE_TOKEN = "UPDATE tblUsers SET token = ? WHERE userID = ?";
 
+    private static final String VERIFY = "UPDATE tblUsers SET status = 1 WHERE email = ? AND token = ?";
+    
     public UserDTO checkLogin(String userID, String password) throws SQLException, NamingException {
         UserDTO user = null;
         Connection conn = null;
@@ -191,4 +195,35 @@ public class UserDAO {
         return checkUpdate;
     }
 
+    public boolean saveToken(UserDTO user) throws SQLException, NamingException {
+        boolean checkSave = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        try {
+            conn = DBUntils.getConnection();
+            ptm = conn.prepareStatement(SAVE_TOKEN);
+            ptm.setString(1, user.getToken());
+            ptm.setString(2, user.getUserID());
+            checkSave = ptm.executeUpdate() > 0;
+        } finally {
+            DBUntils.quietClose(conn, ptm);
+        }
+        return checkSave;
+    }
+    
+    public boolean verify(String token, String email) throws SQLException, NamingException {
+        boolean checkVerify = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        try {
+            conn = DBUntils.getConnection();
+            ptm = conn.prepareStatement(VERIFY);
+            ptm.setString(1, email);
+            ptm.setString(2, token);
+            checkVerify = ptm.executeUpdate() > 0;
+        } finally {
+            DBUntils.quietClose(conn, ptm);
+        }
+        return checkVerify;
+    }
 }

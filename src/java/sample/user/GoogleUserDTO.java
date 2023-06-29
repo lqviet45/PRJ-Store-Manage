@@ -20,6 +20,8 @@ public class GoogleUserDTO {
 
     private String picture;
 
+    private String token;
+    
     public GoogleUserDTO() {
     }
 
@@ -89,8 +91,11 @@ public class GoogleUserDTO {
         this.picture = picture;
     }
 
-    @Override
-    public String toString() {
-        return "UserGoogleDto{" + "id=" + id + ", email=" + email + ", verified_email=" + verified_email + ", name=" + name + ", given_name=" + given_name + ", family_name=" + family_name + ", picture=" + picture + '}';
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

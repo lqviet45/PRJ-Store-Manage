@@ -1,52 +1,64 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package sample.controlers;
 
 import java.io.IOException;
-import java.util.UUID;
+import java.sql.Date;
+import java.time.LocalDate;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import sample.service.EmailService;
-import sample.user.GoogleUserDAO;
-import sample.user.GoogleUserDTO;
+import javax.servlet.http.HttpSession;
+import sample.shopping.Cart;
+import sample.shopping.Order;
+import sample.shopping.ShoppingDAO;
 import sample.user.UserDTO;
 
+/**
+ *
+ * @author DELL
+ */
+@WebServlet(name = "CheckoutController", urlPatterns = {"/CheckoutController"})
+public class CheckoutController extends HttpServlet {
 
-@WebServlet(name = "CreateGoogleController", urlPatterns = {"/CreateGoogleController"})
-public class CreateGoogleController extends HttpServlet {
+    private static final String ERROR = "viewCart.jsp";
+    private static final String SUCCESS = "viewCart.jsp";
 
-    private static final String SUCCESS = "login.html";
-    private static final String ERROR = "create.jsp";
-    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
         try {
-            String code = request.getParameter("code");
-            if(code == null || code.isEmpty()) {
-                request.setAttribute("ERROR", "Unknow error");
-            } else {
-                GoogleUserDAO dao = new GoogleUserDAO();
-                String accessToken = dao.getTokenSignUp(code);
-                GoogleUserDTO googleUser = dao.getUserInfo(accessToken);
-                boolean isUpdate = dao.insertGoogleUser(googleUser);
-                if(isUpdate) {
-                    EmailService emailService = new EmailService();
-                    googleUser.setToken(UUID.randomUUID().toString());
-                    dao.saveToken(googleUser);
-                    emailService.sendMail(googleUser.getEmail(), googleUser.getToken());
-                    url = SUCCESS;
-                } else {
-                    request.setAttribute("ERROR", "Unknow error");
-                }               
+            HttpSession session = request.getSession();
+            UserDTO user = (UserDTO) session.getAttribute("LOGIN_USER");
+            ShoppingDAO dao = new ShoppingDAO();
+            if (user == null) {
+                request.setAttribute("ERROR", "Please login to checkout!!!!");
+                return;
             }
+            Cart cart = (Cart) session.getAttribute("CART");
+            if (cart == null) {
+                request.setAttribute("ERROR", "Your cart don't have anything!!!");
+                return;
+            }
+            int orderID = dao.getOrderID();
+            Order order = new Order(dao.getOrderID(),
+                    user.getUserID(),
+                    Date.valueOf(LocalDate.now()),
+                    cart.getTotal());
+            boolean checkSaveOrder = dao.saveOrder(order);
+            if (!checkSaveOrder) {
+                request.setAttribute("ERROR", "Unknow error can not save your order, please try again!!!");
+                return;
+            }
+            request.setAttribute("ERROR", "SUCCESS");
         } catch (Exception e) {
-            log("Error at CreateGoogleController: " + e.toString());
-            if(e.toString().contains("duplicate")) {     
-                request.setAttribute("GOOGLE_USER_ERROR", "This gmail aready have signup please login!!!");
-            }
+            log("Error at CheckoutController: " + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

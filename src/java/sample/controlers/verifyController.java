@@ -1,52 +1,45 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package sample.controlers;
 
 import java.io.IOException;
-import java.util.UUID;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import sample.service.EmailService;
-import sample.user.GoogleUserDAO;
-import sample.user.GoogleUserDTO;
-import sample.user.UserDTO;
+import sample.user.UserDAO;
 
+/**
+ *
+ * @author DELL
+ */
+@WebServlet(name = "verifyController", urlPatterns = {"/verifyController"})
+public class verifyController extends HttpServlet {
 
-@WebServlet(name = "CreateGoogleController", urlPatterns = {"/CreateGoogleController"})
-public class CreateGoogleController extends HttpServlet {
+    private static final String ERROR = "verify.jsp";
+    private static final String SUCCESS = "verify.jsp";
 
-    private static final String SUCCESS = "login.html";
-    private static final String ERROR = "create.jsp";
-    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
         try {
-            String code = request.getParameter("code");
-            if(code == null || code.isEmpty()) {
-                request.setAttribute("ERROR", "Unknow error");
+            String token = request.getParameter("key");
+            String email = request.getParameter("email");
+            UserDAO dao = new UserDAO();
+            boolean checkVerify = dao.verify(token, email);
+            if (checkVerify) {
+                request.setAttribute("MESSAGE", "Verify successful, please login!!!");               
+                url = SUCCESS;
             } else {
-                GoogleUserDAO dao = new GoogleUserDAO();
-                String accessToken = dao.getTokenSignUp(code);
-                GoogleUserDTO googleUser = dao.getUserInfo(accessToken);
-                boolean isUpdate = dao.insertGoogleUser(googleUser);
-                if(isUpdate) {
-                    EmailService emailService = new EmailService();
-                    googleUser.setToken(UUID.randomUUID().toString());
-                    dao.saveToken(googleUser);
-                    emailService.sendMail(googleUser.getEmail(), googleUser.getToken());
-                    url = SUCCESS;
-                } else {
-                    request.setAttribute("ERROR", "Unknow error");
-                }               
+                request.setAttribute("MESSAGE", "verify faile, please verify again!!!");
             }
         } catch (Exception e) {
-            log("Error at CreateGoogleController: " + e.toString());
-            if(e.toString().contains("duplicate")) {     
-                request.setAttribute("GOOGLE_USER_ERROR", "This gmail aready have signup please login!!!");
-            }
+            log("Error at VerifyController: " + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
