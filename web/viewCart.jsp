@@ -92,7 +92,9 @@
                                         <span><strong>${total}</strong></span>
                                     </li>
                                 </ul>
-                            <p class="text-danger">${requestScope.ERROR}</p>
+                                <c:forEach var="error" items="${requestScope.MESSAGE}">
+                                    <p class="text-danger">${error}</p>
+                                </c:forEach>
                                 <form action="MainController">
                                     <button type="submit" class="btn btn-primary btn-lg btn-block" name="action" value="Checkout">
                                         Go to checkout

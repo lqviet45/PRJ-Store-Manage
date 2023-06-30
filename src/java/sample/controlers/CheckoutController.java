@@ -8,6 +8,9 @@ package sample.controlers;
 import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,6 +20,7 @@ import javax.servlet.http.HttpSession;
 import sample.shopping.Cart;
 import sample.shopping.Order;
 import sample.shopping.ShoppingDAO;
+import sample.shopping.Tea;
 import sample.user.UserDTO;
 
 /**
@@ -38,25 +42,52 @@ public class CheckoutController extends HttpServlet {
             UserDTO user = (UserDTO) session.getAttribute("LOGIN_USER");
             ShoppingDAO dao = new ShoppingDAO();
             if (user == null) {
-                request.setAttribute("ERROR", "Please login to checkout!!!!");
+                request.setAttribute("MESSAGE", "Please login to checkout!!!!");
                 return;
             }
             Cart cart = (Cart) session.getAttribute("CART");
             if (cart == null) {
-                request.setAttribute("ERROR", "Your cart don't have anything!!!");
+                request.setAttribute("MESSAGE", "Your cart don't have anything!!!");
                 return;
             }
-            int orderID = dao.getOrderID();
+            List<String> error = new ArrayList<>();
+            boolean isStocking = true;
+            for (Map.Entry<String, Tea> c : cart.getCart().entrySet()) {
+                Tea tea = c.getValue();
+                int productAllQuantity = dao.checkProductQuantity(tea.getId());
+                if (tea.getQuantity() > productAllQuantity) {
+                    String errorMess = tea.getName() + " only have " + productAllQuantity + " products left \n";
+                    error.add(errorMess);
+                    isStocking = false;
+                }
+            }
+            if (!isStocking) {
+                request.setAttribute("MESSAGE", error);
+                return;
+            }
             Order order = new Order(dao.getOrderID(),
                     user.getUserID(),
                     Date.valueOf(LocalDate.now()),
                     cart.getTotal());
             boolean checkSaveOrder = dao.saveOrder(order);
             if (!checkSaveOrder) {
-                request.setAttribute("ERROR", "Unknow error can not save your order, please try again!!!");
+                request.setAttribute("MESSAGE", "Unknow error can not save your order, please try again!!!");
                 return;
             }
-            request.setAttribute("ERROR", "SUCCESS");
+            int orderDetailID = dao.getOrderDetailID();
+            for (Map.Entry<String, Tea> c : cart.getCart().entrySet()) {
+                Tea tea = c.getValue();
+                boolean saveOrderDetail = dao.saveOrderDetail(orderDetailID, order, tea);
+                if (!saveOrderDetail) {
+                    request.setAttribute("MESSAGE", "save your order failed (unknown error), please try again for a few minutes");
+                    dao.removeOrder(order);
+                    return;
+                } else {
+                    dao.updateProductQuantity(tea.getId());
+                }
+            }
+            request.setAttribute("MESSAGE", "SUCCESS");
+
         } catch (Exception e) {
             log("Error at CheckoutController: " + e.toString());
         } finally {
