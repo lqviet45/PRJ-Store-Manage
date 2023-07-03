@@ -28,7 +28,7 @@ public class MainController extends HttpServlet {
     private static final String CREATE_CONTROLLER = "CreateController";
 
     private static final String SHOPPING_PAGE = "ShoppingPage";
-    private static final String SHOPPING_PAGE_VIEW = "shopping.html";
+    private static final String SHOPPING_CONTROLLER = "ShoppingController";
 
     private static final String ADD = "Add";
     private static final String ADD_CONTROLLER = "AddController";
@@ -50,10 +50,10 @@ public class MainController extends HttpServlet {
 
     private static final String CREATE_GOOGLE = "CreateGoogle";
     private static final String CREATE_GOOGLE_CONTROLLER = "CreateGoogleController";
-    
+
     private static final String VERIFY = "verify";
     private static final String VERIFY_CONTROLLER = "verifyController";
-    
+
     private static final String CHECKOUT = "Checkout";
     private static final String CHECKOUT_CONTROLLER = "CheckoutController";
 
@@ -78,7 +78,7 @@ public class MainController extends HttpServlet {
             } else if (CREATE.equals(action)) {
                 url = CREATE_CONTROLLER;
             } else if (SHOPPING_PAGE.equals(action)) {
-                url = SHOPPING_PAGE_VIEW;
+                url = SHOPPING_CONTROLLER;
             } else if (ADD.equals(action)) {
                 url = ADD_CONTROLLER;
             } else if (VIEW.equals(action)) {

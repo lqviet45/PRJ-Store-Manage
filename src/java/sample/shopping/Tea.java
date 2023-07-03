@@ -15,6 +15,7 @@ public class Tea {
     private String name;
     private double price;
     private int quantity;
+    private String img;
 
     public Tea() {
     }
@@ -58,4 +59,11 @@ public class Tea {
         this.quantity = quantity;
     }
 
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
 }

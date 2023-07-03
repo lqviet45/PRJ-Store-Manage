@@ -21,84 +21,77 @@
             </form>
             <p style="text-align: end" class="text-success">${requestScope.MESSAGE}</p>
             <ul class="list-group">
-                <li class="list-group-item mb-4">
-                    <div class="row">
-                        <div class="col-7">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbRjObUFje0jfhrhd5pKe8btQy-JiXfMKn4A&usqp=CAU" alt="Product 1" class=""
-                                 style="width: 70%;">
+                <c:forEach var="product" items="${requestScope.LIST_PRODUCT}">
+                    <li class="list-group-item mb-4">
+                        <div class="row">
+                            <div class="col-7">
+                                <img src="${product.img}" alt="Product 1" class=""
+                                     style="width: 70%;">
+                            </div>
+                            <div class="col-4">
+                                <form action="MainController" class="d-flex flex-column float-start" style="width: 300px" >
+                                    <h2 class="ps-5 pe-5">${product.name}</h2>
+                                    <p style="font-size: 20px; align-self: flex-start; margin-bottom: 5px">Price: ${product.price}K</p>
+                                    <h4 style="align-self: flex-start; margin-top: 5px">Quantity</h4>
+                                    <select name="cmbvQuantity" class="form-select mb-4">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="10">10</option>
+                                    </select>
+                                    <input type="hidden" value="${product.id}- ${product.name}-${product.price}" name="cmbTea" />
+                                    <input type="hidden" value="${requestScope.CURRENT_PAGE}" name="page" />
+                                    <input type="submit" value="Add" name="action" class="btn btn-primary" />  
+                                </form>
+                            </div>
                         </div>
-                        <div class="col-4">
-                            <form action="MainController" class="d-flex flex-column float-start" style="width: 300px" >
-                                <h2 class="ps-5 pe-5">Vai Tea</h2>
-                                <p style="font-size: 20px; align-self: flex-start; margin-bottom: 5px">Price: 30K</p>
-                                <h4 style="align-self: flex-start; margin-top: 5px">Quantity</h4>
-                                <select name="cmbvQuantity" class="form-select mb-4">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="10">10</option>
-                                </select>
-                                <input type="hidden" value="T01- Vai Tea-30" name="cmbTea">
-                                <input type="submit" value="Add" name="action" class="btn btn-primary" />  
-                            </form>
-                        </div>
-                    </div>
-                </li>
-
-                <li class="list-group-item mb-4">
-                    <div class="row">
-                        <div class="col-7">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHXgog47yzjLXVwLYVOZfIUz_OaRArmlb22w&usqp=CAU" alt="Product 1" class=""
-                                 style="width: 70%;">
-                        </div>
-                        <div class="col-4">
-                            <form action="MainController" class="d-flex flex-column float-start" style="width: 300px" >
-                                <h2 class="ps-5 pe-5" >Green ThaiLan Tea</h2>
-                                <p style="font-size: 20px; align-self: flex-start; margin-bottom: 5px">Price: 30K</p>
-                                <h4 style="align-self: flex-start; margin-top: 5px">Quantity</h4>
-                                <select name="cmbvQuantity" class="form-select mb-4">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="10">10</option>
-                                </select>
-                                <input type="hidden" value="T02- Green ThaiLan Tea-30" name="cmbTea">
-                                <input type="submit" value="Add" name="action" class="btn btn-primary" />
-                            </form>
-                        </div>
-                    </div>
-                </li> 
-
-                <li class="list-group-item mb-4">
-                    <div class="row">
-                        <div class="col-7">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT017VtqML6pSaQT4zTD4I4r3gRhKD1cuBRZw&usqp=CAU" alt="Product 1" class=""
-                                 style="width: 70%;">
-                        </div>
-                        <div class="col-4">
-                            <form action="MainController" class="d-flex flex-column float-start" style="width: 300px">
-                                <h2 class="ps-5 pe-5">Pink Tea</h2>
-                                <p style="font-size: 20px; align-self: flex-start; margin-bottom: 5px">Price: 30K</p>
-                                <h4 style="align-self: flex-start; margin-top: 5px">Quantity</h4>
-                                <select name="cmbvQuantity" class="form-select mb-4">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="10">10</option>
-                                </select>
-                                <input type="hidden" value="T03- Pink Tea-30" name="cmbTea">
-                                <input type="submit" value="Add" name="action" class="btn btn-primary" />                                         
-                            </form>
-                        </div>
-                    </div>
-                </li> 
+                    </li>
+                </c:forEach>
             </ul>
+            <nav aria-label="...">
+                <ul class="pagination">
+                    <c:url var="firstPageLink" value="MainController">
+                        <c:param name="action" value="ShoppingPage"></c:param>
+                        <c:param name="page" value="${requestScope.CURRENT_PAGE - 1}"></c:param>
+                    </c:url>
+                    <c:if test="${requestScope.CURRENT_PAGE != 1}">
+                        <li class="page-item">
+                            <a class="page-link" href="${firstPageLink}" tabindex="-1" aria-disabled="true">Previous</a>
+                        </li>
+                    </c:if>
+
+                    <c:forEach begin="1" end="${requestScope.NUMBER_OF_PAGES}" var="i">
+                        <c:choose>
+                            <c:when test="${CURRENT_PAGE eq i}">
+                                <li class="page-item active" aria-current="page">
+                                    <a class="page-link" href="MainController?action=ShoppingPage&page=${i}">
+                                        ${i}
+                                    </a>
+                                </li>
+                            </c:when>
+                            <c:otherwise>
+                                <li class="page-item">
+                                    <a class="page-link" href="MainController?action=ShoppingPage&page=${i}">
+                                        ${i}
+                                    </a>
+                                </li>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>         
+                    <c:url var="lastPageLink" value="MainController">
+                        <c:param name="action" value="ShoppingPage"></c:param>
+                        <c:param name="page" value="${requestScope.CURRENT_PAGE + 1}"></c:param>
+                    </c:url>
+
+                    <c:if test="${requestScope.CURRENT_PAGE lt requestScope.NUMBER_OF_PAGES}">
+                        <li class="page-item">
+                            <a class="page-link" href="${lastPageLink}">Next</a>
+                        </li>
+                    </c:if>
+                </ul>
+            </nav>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     </body>

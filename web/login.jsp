@@ -37,6 +37,11 @@
                 <span class="create-page-link">Don't have account 
                     <a href="MainController?action=CreatePage">Create user?</a>
                 </span>
+                
+                <span class="create-page-link">Want to shopping
+                    <a href="MainController?action=ShoppingPage&page=1">Shopping?</a>
+                </span>
+                
                 <p>or sign in with:</p>
                 <div class="login-google">
                     <a href="https://accounts.google.com/o/oauth2/auth?scope=email%20profile&redirect_uri=http://localhost:8080/PRJ301_T2S2_JSP_JSTL/MainController?action=LoginGoogle&response_type=code&client_id=725358676694-p17kmkch5e7snmmvic2mftgfa337vkf2.apps.googleusercontent.com&approval_prompt=force">

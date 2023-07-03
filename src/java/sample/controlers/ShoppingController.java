@@ -6,40 +6,47 @@
 package sample.controlers;
 
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import sample.user.UserDAO;
+import sample.shopping.Tea;
+import sample.shopping.TeaDAO;
 
 /**
  *
  * @author DELL
  */
-@WebServlet(name = "verifyController", urlPatterns = {"/verifyController"})
-public class verifyController extends HttpServlet {
+@WebServlet(name = "ShoppingController", urlPatterns = {"/ShoppingController"})
+public class ShoppingController extends HttpServlet {
 
-    private static final String ERROR = "verify.jsp";
-    private static final String SUCCESS = "verify.jsp";
+    private static final String ERROR = "login.html";
+    private static final String SUCCESS = "shopping.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
         try {
-            String token = request.getParameter("key");
-            String email = request.getParameter("email");
-            UserDAO dao = new UserDAO();
-            boolean checkVerify = dao.verify(token, email);
-            if (checkVerify) {
-                request.setAttribute("MESSAGE", "Verify successful, please login!!!");               
+            int page = 1;
+            int recordsPerPage = 2;
+            if (request.getParameter("page") != null) {
+                page = Integer.parseInt(request.getParameter("page"));
+            }
+            TeaDAO dao = new TeaDAO();
+            List<Tea> list = dao.getAllProduct((page - 1) * recordsPerPage, recordsPerPage);
+            int noOfRecords = dao.getNumberOfPage();
+            int numberOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+            if (list.size() > 0) {
+                request.setAttribute("LIST_PRODUCT", list);
+                request.setAttribute("CURRENT_PAGE", page);
+                request.setAttribute("NUMBER_OF_PAGES", numberOfPages);
                 url = SUCCESS;
-            } else {
-                request.setAttribute("MESSAGE", "verify faile, please verify again!!!");
             }
         } catch (Exception e) {
-            log("Error at VerifyController: " + e.toString());
+            log("Error at ShoppingController: " + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

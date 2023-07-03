@@ -83,10 +83,15 @@ public class CheckoutController extends HttpServlet {
                     dao.removeOrder(order);
                     return;
                 } else {
-                    dao.updateProductQuantity(tea.getId());
+                    if (!dao.updateProductQuantity(tea.getId(), orderDetailID)) {
+                        dao.removeOrderDetail(orderDetailID);
+                        request.setAttribute("MESSAGE", "save your order failed (unknown error), please try again for a few minutes");
+                        return;
+                    }
                 }
             }
             request.setAttribute("MESSAGE", "SUCCESS");
+            url = SUCCESS;
 
         } catch (Exception e) {
             log("Error at CheckoutController: " + e.toString());

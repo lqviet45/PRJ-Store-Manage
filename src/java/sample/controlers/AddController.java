@@ -22,8 +22,8 @@ import sample.shopping.Tea;
 @WebServlet(name = "AddController", urlPatterns = {"/AddController"})
 public class AddController extends HttpServlet {
 
-    private static final String ERROR = "shopping.jsp";
-    private static final String SUCCESS = "shopping.jsp";
+    private static final String ERROR = "ShoppingController";
+    private static final String SUCCESS = "ShoppingController";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -36,7 +36,7 @@ public class AddController extends HttpServlet {
             String name = tmp[1];
             double price = Double.parseDouble(tmp[2]);
             int quantity = Integer.parseInt(request.getParameter("cmbvQuantity"));
-            
+
             HttpSession session = request.getSession();
             Cart cart = (Cart) session.getAttribute("CART");
             if (cart == null) {
@@ -49,7 +49,7 @@ public class AddController extends HttpServlet {
                 request.setAttribute("MESSAGE", "Add " + name + " - " + quantity + " to cart successful");
             }
             url = SUCCESS;
-            
+
         } catch (Exception e) {
             log("Error at AddController: " + e.toString());
         } finally {

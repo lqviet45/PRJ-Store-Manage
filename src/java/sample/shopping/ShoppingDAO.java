@@ -6,29 +6,30 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.naming.NamingException;
 import sample.untils.DBUntils;
-import sample.user.UserDTO;
 
 public class ShoppingDAO {
 
     private static final String SAVE_ORDER = "SET IDENTITY_INSERT tblOrder ON \n" + "INSERT INTO tblOrder(orderID, userID, [date], total)\n"
             + "VALUES (?,?,?,?)";
 
-    private static final String REMOVE_ORDER = "delete tblOrder where orderID = ?";
+    private static final String REMOVE_ORDER = "DELETE tblOrder WHERE orderID = ?";
 
-    private static final String CHECK_ORDER_ID = "select MAX(orderID) as orderID from tblOrder";
+    private static final String CHECK_ORDER_ID = "SELECT MAX(orderID) as orderID from tblOrder";
 
-    private static final String CHECK_ORDER_DETAIL_ID = "select MAX(orderDetailID) as orderID from tblOrderDetail";
+    private static final String CHECK_ORDER_DETAIL_ID = "SELECT MAX(orderDetailID) as orderID from tblOrderDetail";
 
     private static final String CHECK_QUANTITY = "SELECT quantity FROM tblProduct WHERE productID = ?";
 
     private static final String CHECK_SAVE_ORDER_DETAIL = "SET IDENTITY_INSERT tblOrderDetail ON\n"
-            + "insert into tblOrderDetail(orderDetailID, productID, orderID, price, quantity)\n"
-            + "values(?, ?, ?, ?, ?)";
+            + "INSERT INTO tblOrderDetail(orderDetailID, productID, orderID, price, quantity)\n"
+            + "VALUES(?, ?, ?, ?, ?)";
 
-    private static final String UPDATE_PRODUCT_QUANTITY = "Update tblProduct set quantity = quantity - \n"
-            + "(select od.quantity from tblOrderDetail od where od.productID = ?)\n"
-            + "where productID = ?";
+    private static final String UPDATE_PRODUCT_QUANTITY = "UPDATE tblProduct SET quantity = quantity - \n"
+            + "(SELECT od.quantity FROM tblOrderDetail od WHERE od.productID = ? AND orderDetailID = ?)\n"
+            + "WHERE productID = ?";
 
+    private static final String REMOVE_ORDER_DETAIL = "DELETE tblOrderDetail WHERE orderDetailID = ?";
+    
     public boolean saveOrder(Order order) throws SQLException, NamingException {
         boolean checkSave = false;
         Connection conn = null;
@@ -145,7 +146,7 @@ public class ShoppingDAO {
         return orderDetailID + 1;
     }
     
-    public boolean updateProductQuantity(String productID) throws SQLException, NamingException {
+    public boolean updateProductQuantity(String productID, int orderDetailID) throws SQLException, NamingException {
         boolean checkUpdate = false;
         Connection conn = null;
         PreparedStatement ptm = null;
@@ -153,13 +154,30 @@ public class ShoppingDAO {
             conn = DBUntils.getConnection();
             ptm = conn.prepareStatement(UPDATE_PRODUCT_QUANTITY);
             ptm.setString(1, productID);
-            ptm.setString(2, productID);
+            ptm.setInt(2, orderDetailID);
+            ptm.setString(3, productID);
             checkUpdate = ptm.executeUpdate() > 0;
         } finally {
             DBUntils.quietClose(conn, ptm);
         }
         
         return checkUpdate;
+    }
+    
+    public boolean removeOrderDetail(int orderDetailID) throws SQLException, NamingException {
+        boolean checkRemove = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUntils.getConnection();
+            ptm = conn.prepareStatement(REMOVE_ORDER_DETAIL);
+            ptm.setInt(1, orderDetailID);
+            checkRemove = ptm.executeUpdate() > 0;
+        } finally {
+            DBUntils.quietClose(conn, ptm, rs);
+        }
+        return checkRemove;
     }
 
 }
