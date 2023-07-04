@@ -20,11 +20,12 @@ public class Tea {
     public Tea() {
     }
 
-    public Tea(String id, String name, double price, int quantity) {
+    public Tea(String id, String name, double price, int quantity, String img) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.quantity = quantity;
+        this.img = img;
     }
 
     public String getId() {
