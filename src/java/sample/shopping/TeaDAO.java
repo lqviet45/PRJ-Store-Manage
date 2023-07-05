@@ -23,6 +23,11 @@ public class TeaDAO {
     private static final String UPDATE_PRODUCT = "UPDATE tblProduct SET [name] = ?, price = ?, quantity = ?, [image] = ?\n"
             + "WHERE productID = ?";
 
+    private static final String INSERT_PRODUCT = "INSERT INTO tblProduct(productID, [name], price, quantity, [image])\n"
+            + "VALUES (?,?,?,?,?)";
+
+    private static final String DELETE_PRODUCT = "DELETE tblProduct WHERE productID = ?";
+    
     public List<Tea> getAllProductPaging(int offSet, int noOfRecord) throws SQLException, NamingException {
         List<Tea> list = new ArrayList<>();
         Connection conn = null;
@@ -109,5 +114,39 @@ public class TeaDAO {
             DBUntils.quietClose(conn, ptm);
         }
         return checkUpdate;
+    }
+
+    public boolean insertProduct(Tea tea) throws SQLException, NamingException {
+        boolean checkInsert = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        try {
+            conn = DBUntils.getConnection();
+            ptm = conn.prepareStatement(INSERT_PRODUCT);
+            ptm.setString(1, tea.getId());
+            ptm.setString(2, tea.getName());
+            ptm.setDouble(3, tea.getPrice());
+            ptm.setInt(4, tea.getQuantity());
+            ptm.setString(5, tea.getImg());
+            checkInsert = ptm.executeUpdate() > 0;
+        } finally {
+            DBUntils.quietClose(conn, ptm);
+        }
+        return checkInsert;
+    }
+    
+    public boolean deleteProduct(String teaID) throws SQLException, NamingException {
+        boolean checkDelete = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        try {
+            conn = DBUntils.getConnection();
+            ptm = conn.prepareStatement(DELETE_PRODUCT);
+            ptm.setString(1, teaID);
+            checkDelete = ptm.executeUpdate() > 0;
+        } finally {
+            DBUntils.quietClose(conn, ptm);
+        }      
+        return checkDelete;
     }
 }

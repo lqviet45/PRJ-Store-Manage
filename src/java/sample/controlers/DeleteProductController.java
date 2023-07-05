@@ -11,46 +11,33 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import sample.shopping.Cart;
-import sample.shopping.Tea;
+import sample.shopping.TeaDAO;
 
 /**
  *
  * @author DELL
  */
-@WebServlet(name = "AddController", urlPatterns = {"/AddController"})
-public class AddController extends HttpServlet {
+@WebServlet(name = "DeleteProductController", urlPatterns = {"/DeleteProductController"})
+public class DeleteProductController extends HttpServlet {
 
-    private static final String ERROR = "ShoppingController";
-    private static final String SUCCESS = "ShoppingController";
+    private static final String ERROR = "ViewProductController";
+    private static final String SUCCESS = "ViewProductController";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
         try {
-            String strTea = request.getParameter("cmbTea");
-            String[] tmp = strTea.split("-");
-            String id = tmp[0];
-            String name = tmp[1];
-            double price = Double.parseDouble(tmp[2]);
-            int quantity = Integer.parseInt(request.getParameter("cmbvQuantity"));
-
-            HttpSession session = request.getSession();
-            Cart cart = (Cart) session.getAttribute("CART");
-            if (cart == null) {
-                cart = new Cart();
+            String productID = request.getParameter("productID");
+            TeaDAO dao = new TeaDAO();
+            boolean checkDelete = dao.deleteProduct(productID);
+            if (checkDelete) {
+                url = SUCCESS;
+            } else {
+                request.setAttribute("ERROR", "UnKnown Error, Can not delete!!!");
             }
-            Tea tea = new Tea(id, name, price, quantity, "");
-            boolean check = cart.add(tea);
-            if (check) {
-                session.setAttribute("CART", cart);
-                request.setAttribute("MESSAGE", "Add " + name + " - " + quantity + " to cart successful");
-            }
-            url = SUCCESS;
         } catch (Exception e) {
-            log("Error at AddController: " + e.toString());
+            log("Error at DeleteProductController: " + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

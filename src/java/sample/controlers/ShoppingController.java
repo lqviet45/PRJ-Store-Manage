@@ -36,7 +36,7 @@ public class ShoppingController extends HttpServlet {
                 page = Integer.parseInt(request.getParameter("page"));
             }
             TeaDAO dao = new TeaDAO();
-            List<Tea> list = dao.getAllProduct((page - 1) * recordsPerPage, recordsPerPage);
+            List<Tea> list = dao.getAllProductPaging((page - 1) * recordsPerPage, recordsPerPage);
             int noOfRecords = dao.getNumberOfPage();
             int numberOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
             if (list.size() > 0) {

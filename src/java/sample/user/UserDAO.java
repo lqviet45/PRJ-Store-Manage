@@ -17,7 +17,7 @@ public class UserDAO {
 
     private static final String CHECK_DUPLICATE = "SELECT fullName, roleID FROM tblUsers WHERE userID = ?";
 
-    private static final String LOGIN = "SELECT fullName, roleID FROM tblUsers WHERE userID = ? AND password = ? AND isGoogleAccount = 0";
+    private static final String LOGIN = "SELECT fullName, roleID FROM tblUsers WHERE userID = ? AND password = ?";
 
     private static final String SEARCH = "SELECT userID, fullName, roleID, email FROM tblUsers WHERE fullName like ?";
 
@@ -25,7 +25,7 @@ public class UserDAO {
 
     private static final String UPDATE = "UPDATE tblUsers SET fullName = ?, roleID = ?, email = ? WHERE userID = ?";
 
-    private static final String INSERT = "INSERT INTO tblUsers(userID, fullName, roleID, status, email, password, isGoogleAccount) VALUES(?,?,?, 0,?,?, 0)";
+    private static final String INSERT = "INSERT INTO tblUsers(userID, fullName, roleID, status, email, password) VALUES(?,?,?, 0,?,?)";
     
     private static final String SAVE_TOKEN = "UPDATE tblUsers SET token = ? WHERE userID = ?";
 
@@ -117,7 +117,7 @@ public class UserDAO {
                 ptm.setString(2, user.getRoleID());
                 ptm.setString(3, user.getEmail());
                 ptm.setString(4, user.getUserID());
-                checkUpdate = ptm.executeUpdate() > 0 ? true : false;
+                checkUpdate = ptm.executeUpdate() > 0;
             }
         } finally {
             DBUntils.quietClose(conn, ptm);

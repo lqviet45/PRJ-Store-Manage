@@ -41,7 +41,9 @@ public class Authen implements Filter {
         USER_RESOURCES.add("user.jsp");
         ADMIN_RESOURCES = new ArrayList<>();
         ADMIN_RESOURCES.add("admin.jsp");
-
+        ADMIN_RESOURCES.add("adminProduct.jsp");
+        ADMIN_RESOURCES.add("insertProduct.jsp");
+        
         NON_AUTHEN_RESOURCES = new ArrayList<>();
         NON_AUTHEN_RESOURCES.add("login.html");
         NON_AUTHEN_RESOURCES.add("login.jsp");

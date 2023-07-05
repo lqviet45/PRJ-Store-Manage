@@ -37,7 +37,7 @@ public class LoginGoogleController extends HttpServlet {
                 GoogleUserDAO dao = new GoogleUserDAO();
                 String accessToken = dao.getToken(code);
                 GoogleUserDTO googleUser = dao.getUserInfo(accessToken);
-                UserDTO user = dao.checkLogin(googleUser.getName(), googleUser.getEmail());
+                UserDTO user = dao.checkLogin(googleUser.getId(), googleUser.getEmail());
                 if (user == null) {
                     request.setAttribute("ERROR", "Your email is not signup yet!!!");
                 } else {

@@ -57,6 +57,18 @@ public class MainController extends HttpServlet {
     private static final String CHECKOUT = "Checkout";
     private static final String CHECKOUT_CONTROLLER = "CheckoutController";
 
+    private static final String VIEW_PRODUCT = "viewProduct";
+    private static final String VIEW_PRODUCT_CONTROLLER = "ViewProductController";
+    
+    private static final String UPDATE_PRODUCT = "UpdateProduct";
+    private static final String UPDATE_PRODUCT_CONTROLLER = "UpdateProductController";
+        
+    private static final String INSERT_PRODUCT = "InsertProduct";
+    private static final String INSERT_PRODUCT_CONTROLLER = "InsertProductController";
+    
+    private static final String DELETE_PRODUCT = "DeleteProduct";
+    private static final String DELETE_PRODUCT_CONTROLLER = "DeleteProductController";
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -97,6 +109,14 @@ public class MainController extends HttpServlet {
                 url = VERIFY_CONTROLLER;
             } else if (CHECKOUT.equals(action)) {
                 url = CHECKOUT_CONTROLLER;
+            } else if (VIEW_PRODUCT.equals(action)) {
+                url = VIEW_PRODUCT_CONTROLLER;
+            } else if (UPDATE_PRODUCT.equals(action)) {
+                url = UPDATE_PRODUCT_CONTROLLER;
+            } else if (INSERT_PRODUCT.equals(action)) {
+                url = INSERT_PRODUCT_CONTROLLER;
+            } else if (DELETE_PRODUCT.equals(action)) {
+                url = DELETE_PRODUCT_CONTROLLER;
             }
 
         } catch (Exception e) {

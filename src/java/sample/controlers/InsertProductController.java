@@ -11,46 +11,63 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import sample.shopping.Cart;
 import sample.shopping.Tea;
+import sample.shopping.TeaDAO;
+import sample.shopping.TeaError;
 
 /**
  *
  * @author DELL
  */
-@WebServlet(name = "AddController", urlPatterns = {"/AddController"})
-public class AddController extends HttpServlet {
+@WebServlet(name = "InsertProductController", urlPatterns = {"/InsertProductController"})
+public class InsertProductController extends HttpServlet {
 
-    private static final String ERROR = "ShoppingController";
-    private static final String SUCCESS = "ShoppingController";
+    private static final String ERROR = "insertProduct.jsp";
+    private static final String SUCCESS = "insertProduct.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
+        TeaError teaError = new TeaError();
         try {
-            String strTea = request.getParameter("cmbTea");
-            String[] tmp = strTea.split("-");
-            String id = tmp[0];
-            String name = tmp[1];
-            double price = Double.parseDouble(tmp[2]);
-            int quantity = Integer.parseInt(request.getParameter("cmbvQuantity"));
-
-            HttpSession session = request.getSession();
-            Cart cart = (Cart) session.getAttribute("CART");
-            if (cart == null) {
-                cart = new Cart();
+            String productID = request.getParameter("productID");
+            String pName = request.getParameter("pName");
+            double price = Double.parseDouble(request.getParameter("price"));
+            int quantity = Integer.parseInt(request.getParameter("quantity"));
+            String img = request.getParameter("img");
+            boolean checkValidation = true;
+            if (pName.length() < 2 || pName.length() > 20) {
+                teaError.setNameError("Product name must be in [2-20");
+                checkValidation = false;
             }
-            Tea tea = new Tea(id, name, price, quantity, "");
-            boolean check = cart.add(tea);
-            if (check) {
-                session.setAttribute("CART", cart);
-                request.setAttribute("MESSAGE", "Add " + name + " - " + quantity + " to cart successful");
+            if (price < 0) {
+                teaError.setPriceError("Price must bigger than 0!!!");
+                checkValidation = false;
             }
-            url = SUCCESS;
+            if (quantity < 0) {
+                teaError.setQuantityError("Quantity must bigger than 0!!!");
+                checkValidation = false;
+            }
+            if (checkValidation) {
+                TeaDAO dao = new TeaDAO();
+                Tea tea = new Tea(productID, pName, price, quantity, img);
+                boolean checkInsert = dao.insertProduct(tea);
+                if (checkInsert) {
+                    request.setAttribute("MESSAGE", "SUCCESS");
+                    url = SUCCESS;
+                } else {
+                    request.setAttribute("MESSAGE", "Unknown Error!!!");
+                }
+            } else {
+                request.setAttribute("ERROR", teaError);
+            }
         } catch (Exception e) {
-            log("Error at AddController: " + e.toString());
+            log("Error at InsertProductController: " + e.toString());
+            if (e.toString().contains("duplicate")) {
+                teaError.setIdError("Duplicate product(co nghia la product ID da co roi)");
+                request.setAttribute("ERROR", teaError);
+            }
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

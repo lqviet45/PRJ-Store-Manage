@@ -16,9 +16,9 @@ import sample.untils.DBUntils;
 
 public class GoogleUserDAO {
 
-    private static final String LOGIN = "SELECT fullName, roleID FROM tblUsers WHERE userID = ? AND email = ? AND isGoogleAccount = 1";
-    private static final String INSERT = "INSERT INTO tblUsers(userID, fullName, roleID, email, status"
-            + ", isGoogleAccount) VALUES(?,?,?,?, 0, 1)";
+    private static final String LOGIN = "SELECT fullName, roleID FROM tblUsers WHERE userID = ? AND email = ?";
+    private static final String INSERT = "INSERT INTO tblUsers(userID, fullName, roleID, email, status)"
+            + " VALUES(?,?,?,?, 0)";
     private static final String SAVE_TOKEN = "UPDATE tblUsers SET token = ? WHERE userID = ?";
 
     public String getToken(final String code) throws ClientProtocolException, IOException {
@@ -74,7 +74,7 @@ public class GoogleUserDAO {
             if (rs.next()) {
                 String fullName = rs.getString("fullName");
                 String roleID = rs.getString("roleID");
-                String password = "***";
+                String password = "";
                 user = new UserDTO(userID, fullName, roleID, email, password);
             }
         } finally {
@@ -91,8 +91,8 @@ public class GoogleUserDAO {
         try {
             conn = DBUntils.getConnection();
             ptm = conn.prepareStatement(INSERT);
-            ptm.setString(1, googleUser.getName());
-            ptm.setString(2, googleUser.getGiven_name());
+            ptm.setString(1, googleUser.getId());
+            ptm.setString(2, googleUser.getName());
             ptm.setString(3, "US");
             ptm.setString(4, googleUser.getEmail());
             checkUpdate = ptm.executeUpdate() > 0;
@@ -110,7 +110,7 @@ public class GoogleUserDAO {
             conn = DBUntils.getConnection();
             ptm = conn.prepareStatement(SAVE_TOKEN);
             ptm.setString(1, user.getToken());
-            ptm.setString(2, user.getName());
+            ptm.setString(2, user.getId());
             checkSave = ptm.executeUpdate() > 0;
         } finally {
             DBUntils.quietClose(conn, ptm);
