@@ -50,7 +50,7 @@
                     <label for="email" class="form-label">Email</label>
                     <input id="email" name="email" type="text" placeholder="Enter your email" class="form-control">
                     <span class="form-message">
-                        ${requestScope.USER_ERROR.email}
+                        ${requestScope.USER_ERROR.emailError}
                     </span>
                 </div>
 

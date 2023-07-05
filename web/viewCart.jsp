@@ -19,7 +19,7 @@
             <div class="container py-5">
                 <div class="row d-flex justify-content-center my-4">
                     <div class="col-md-8">
-                        <a href="shopping.html" class="btn btn-primary ms-3 mb-3">Add More</a>
+                        <a href="MainController?action=ShoppingPage" class="btn btn-primary ms-3 mb-3">Add More</a>
                         <c:if test="${sessionScope.LOGIN_USER == null}">
                             <a href="login.html" class="btn btn-primary ms-3 mb-3">Login</a>
                         </c:if>
@@ -97,7 +97,7 @@
                                 </c:forEach>
                                 <form action="MainController">
                                     <button type="submit" class="btn btn-primary btn-lg btn-block" name="action" value="Checkout">
-                                        Go to checkout
+                                       Checkout
                                     </button>
                                 </form>
                             </div>

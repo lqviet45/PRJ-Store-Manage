@@ -10,21 +10,27 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     </head>
     <body>
+        <c:if test="${sessionScope.LOGIN_USER.roleID ne 'AD'}">
+            <c:redirect url="login.html"></c:redirect>
+        </c:if>
+        
         <div class="container">
             <h5>Welcome <mark>${sessionScope.LOGIN_USER.fullName}</mark></h5>
-                    <c:url var="logoutLink" value="MainController">
-                        <c:param name="action" value="Logout"></c:param>
-                    </c:url>
-            <a href="${logoutLink}">Logout JSTL</a>
+
+            <c:url var="logoutLink" value="MainController">
+                <c:param name="action" value="Logout"></c:param>
+            </c:url>
+
+            <a href="${logoutLink}" class="btn btn-primary">Logout</a>
             <div class="d-flex justify-content-between">
+
                 <form action="MainController" class="my-3">
                     Search<input type="text" name="search" value ="${param.search}" class="ms-2"/>
                     <input type="submit" name="action" value="Search" />
                 </form>
 
-                <form action="MainController" class="my-3 me-3">
-                    <input type="submit" name="action" value="Logout"/>
-                </form>
+                <a href="adminProduct.jsp" class="btn btn-info" style="height: 40px" >Edit Product</a>
+                
             </div>
             <c:if test="${requestScope.LIST_USER != null}">
                 <c:if test="${not empty requestScope.LIST_USER}">
