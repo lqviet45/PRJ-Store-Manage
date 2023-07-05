@@ -38,7 +38,7 @@
                                             </div>
                                         </div>
                                         <div class="d-flex pt-1 justify-content-between">
-                                            <a href="shopping.html" class="btn btn-outline-primary me-1">Go to Shopping</a>
+                                            <a href="MainController?action=ShoppingPage" class="btn btn-outline-primary me-1">Go to Shopping</a>
                                             <form action="MainController">
                                                 <button type="submit" class="btn btn-primary" name="action" value="View">View Cart</button>
                                             </form>

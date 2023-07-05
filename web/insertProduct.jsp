@@ -19,27 +19,27 @@
             <form action="MainController">
                 <div class="mb-3">
                     <label for="productID" class="form-label">Product ID</label>
-                    <input type="text" class="form-control" id="productID" name="productID" />
+                    <input type="text" class="form-control" id="productID" name="productID" required="" />
                     <p class="text-danger">${requestScope.ERROR.idError}</p>
                 </div>
                 <div class="mb-3">
                     <label for="productName" class="form-label">Product Name</label>
-                    <input type="text" class="form-control" id="productName" name="pName" />
+                    <input type="text" class="form-control" id="productName" name="pName" required="" />
                     <p class="text-danger">${requestScope.ERROR.nameError}</p>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="price">Product Price</label>
-                    <input type="text" class="form-control" id="price" min="0" name="price" />
+                    <input type="text" class="form-control" id="price" min="0" name="price" required="" />
                     <p class="text-danger">${requestScope.ERROR.priceError}</p>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="quantity">Product Quantity</label>
-                    <input type="number" class="form-control" id="quantity" min="0" name="quantity" />
+                    <input type="number" class="form-control" id="quantity" min="0" name="quantity" required="" />
                     <p class="text-danger">${requestScope.ERROR.quantityError}</p>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="img">Product image</label>
-                    <input type="text" class="form-control" id="img" name="img" />
+                    <input type="text" class="form-control" id="img" name="img" required="" />
                 </div>
                 <p class="text-danger">${requestScope.MESSAGE}</p>
                 <button type="submit" class="btn btn-primary" name="action" value="InsertProduct">Insert</button>

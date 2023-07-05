@@ -61,7 +61,9 @@
                                     <td>
                                         <input type="text" name="roleID" value="${user.roleID}" required="" />
                                     </td>
-                                    <td>${user.email}</td>
+                                    <td>
+                                        <input type="text" name="email" value="${user.email}" required="" />
+                                    </td>
                                     <td>${user.password}</td>
                                     <td>
                                         <input type="submit" value="Update" name="action" />
